@@ -1,0 +1,12 @@
+.Logo {
+    background-color: white;
+    padding: 8px;
+    /* Adjust the height property in the used component so we can set it dynamically */
+    /* height: 90%; */
+    box-sizing: border-box;
+    border-radius: 5px;
+}
+
+.Logo img {
+    height: 100%;
+}   

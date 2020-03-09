@@ -15,10 +15,10 @@ class BurgerBuilder extends Component {
     // Managing the App State
     state = {
         ingredients: {
-            meat: 0,
-            cheese: 0,
             salad: 0,
             bacon: 0,
+            cheese: 0,
+            meat: 0,
         },
         totalPrice: 2,
         purchasable: false,
@@ -145,6 +145,8 @@ class BurgerBuilder extends Component {
         return (
             <Aux>
                 {/* in this component i will call the Burger and the Burger Build Control and the modal that contains the user order summary*/}
+
+                {/* when we update some components(buildControls for instance as it changes some state)  state manager component will re renders so its children component will get re rendered, so that`s mean that if we update other components, Modal component and order Summary component (bec it is its child) will get re rendered, so we can use shouldComponentUpdate LifeCycle hook for updating them only when they really update*/}
 
                 <Modal showModal = {this.state.showModal} closeModal = {this.closeModalHandler}>
                     <OrderSummary

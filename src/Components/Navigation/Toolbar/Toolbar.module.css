@@ -1,0 +1,26 @@
+.Toolbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 56px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 90;
+    box-sizing: border-box;
+    padding: 5px 20px;
+    background-color: #703b09;
+}
+
+.Toolbar nav{
+    height: 100%;
+}
+
+@media (max-width: 500px){
+
+    .Toolbar nav{
+        /* displaying the nav that holds the nav items in the mob screen to none */
+        display: none;
+    }
+}
