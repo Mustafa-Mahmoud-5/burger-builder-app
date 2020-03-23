@@ -36,7 +36,6 @@ class Layout extends Component  {
                 }
             })
         })
-
     }
 
     render(){
@@ -52,7 +51,7 @@ class Layout extends Component  {
                 />
     
                 <main className = {classes.Content}>
-                    {/* Burger Builder Component */}
+                    {/* Burger Builder  or orders or check out component using routing */}
                     {this.props.children}
                 </main>
             </Aux>

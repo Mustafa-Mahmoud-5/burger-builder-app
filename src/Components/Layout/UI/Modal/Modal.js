@@ -7,24 +7,20 @@ class Modal extends Component {
 
 
     // this component should only update when the props.showModal is updated, so we can make it only update on such case for saving some performance
+
+
+
+    // this component only updates when the showModal state changes, but i recently added the spinner that should displayed when the loading state also change therefore when the child(summary component) also updates
     shouldComponentUpdate(nextProps, nextState){
-        return nextProps.showModal !== this.props.showModal
+        return nextProps.showModal !== this.props.showModal || nextProps.children !== this.props.children
     }
+
     componentDidUpdate(){
         console.log('updated')
     }
 
 
     render(){
-    // hide the scrolling bar when the user open the modal
-    if(this.props.showModal === true){
-        document.querySelector('html').style.overflow = 'hidden'
-    }
-    else{
-        document.querySelector('html').style.overflow = 'auto'
-    }
-
-        
         return (
 
             <Aux>
@@ -36,6 +32,7 @@ class Modal extends Component {
             <div className={classes.Modal} style = {{
                 transform: this.props.showModal ? 'translateY(0)' : 'translateY(-150vh)'
             }}>
+                {/* this will be the children (the orderSummary component) */}
                 {this.props.children}
             </div>
             </Aux>

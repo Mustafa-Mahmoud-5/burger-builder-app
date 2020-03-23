@@ -10,9 +10,9 @@
 }
 
 
-@media(max-width: 500px){
+@media(max-width: 510px) {
 
-    .NavigationItems{
+    .NavigationItems {
         flex-direction: column;
         margin-top: 30px;
     }

@@ -4,7 +4,9 @@ import Burger from '../../Components/Layout/Burger/Burger';
 import BuildControls from '../../Components/Layout/Burger/BuildControls/BuildControls';
 import Modal from '../../Components/Layout/UI/Modal/Modal';
 import OrderSummary from '../../Components/Layout/Burger/OrderSummary/OrderSummary';
-// make a list of prices (i didn` them to the state because they will be fixed and i have no intentions to update them)
+import axios from 'axios';
+import Loader from '../../Components/Layout/UI/Loader/Loader';
+// make a list of prices (i didn` add them to the state because they will be fixed and i have no intentions to update them)
 const INGREDIENTS_PRICES = {
     meat: 1.7,
     cheese: 0.5,
@@ -14,17 +16,26 @@ const INGREDIENTS_PRICES = {
 class BurgerBuilder extends Component {
     // Managing the App State
     state = {
-        ingredients: {
-            salad: 0,
-            bacon: 0,
-            cheese: 0,
-            meat: 0,
-        },
+        ingredients: null,
         totalPrice: 2,
         purchasable: false,
-        showModal: false
+        showModal: false,
+        loading: false,
+        error: false,
+        errorMessage: null,
+        getError: false,
+        getErrorMessage: null
     }
 
+    // get the ingredients data from firebase 
+    componentDidMount() {
+
+        axios.get('https://burger-builder-39626.firebaseio.com/ingredients.json').then(response => {
+            this.setState({ingredients: response.data})
+        }).catch(error => {
+            this.setState({getError:true, getErrorMessage: error.message})
+        })
+    }
 
     purchase = (UpdatedIngredients) => {
 
@@ -121,11 +132,28 @@ class BurgerBuilder extends Component {
     }
 
     continuePurchasing = () =>{
-        alert('Purchase Continued')
-        // excute this func once the use click on the continue button
+
+
+        // i need to pass the ingredients object to the query param(this.props.history.search) as an string of 
+
+        let ingredients = {...this.state.ingredients}
+
+        // i get a copy of ingredients` body then change it to array and map it to another array of the form of (element1=value1&element2=value2&..)
+        let passesIngs = Object.keys(ingredients).map(ing => {
+            return `${ing}=${ingredients[ing]}`
+        })
+
+        passesIngs.push(`totalPrice=${this.state.totalPrice}`)
+        let query = passesIngs.join('&')
+
+        this.props.history.push({search: `?${query}`, pathname: '/checkout'});
+        
+       
+
     }
 
     render(){
+
 
         
         // get a copy of the ingredient and set their value to true or false so i can get each property and set the Less button to disabled based on the value of each property
@@ -139,8 +167,59 @@ class BurgerBuilder extends Component {
                 disabledInfo[prop] = false
             }
         }
-        console.log(disabledInfo)
 
+
+        let orderSummary = null;
+
+        let burger = <Loader/>;
+
+        // when i make a request it takes time, and i use the ingredients object in the ui with many different components so i will get error cuz it is set to null initially, theni will just start doing things when it is not null
+        if(this.state.ingredients) {
+
+            
+            burger = (
+                <Aux>
+
+                    <Burger ingredients = {this.state.ingredients}/>
+
+                    <BuildControls
+                    totalPrice = {this.state.totalPrice}
+                    purchasable = {this.state.purchasable} 
+                    addIngredientFunc = {this.AddIngredientHandler}
+                    RemoveIngredientHandler = {this.RemoveIngredientHandler}
+                    disabledInfo = {disabledInfo}
+                    showModal = {this.showModalHandler}
+                    />
+
+                </Aux>
+            )
+
+
+
+            // showing order summary dynamically 
+            if(this.state.loading) {
+                orderSummary = <Loader />
+            }
+            else{
+                orderSummary = <OrderSummary
+                totalPrice = {this.state.totalPrice} 
+                ingredients = {this.state.ingredients}
+                closeModal = {this.closeModalHandler}
+                continuePurchasing = {this.continuePurchasing}
+                />
+            }
+            // this check is must so i can check if the error is true then dispaly error message i got from .catch in axios so it over ride the previous orderSummary settings
+            if(this.state.error) {
+            orderSummary = <h2 style={{color: 'red'}}>{this.state.errorMessage}</h2>
+            }
+
+        }
+
+        // Handling the get error
+
+        if(this.state.getError){
+            burger = <h1 style ={{color: 'red', textAlign: 'center'}}>{this.state.getErrorMessage}</h1>
+        }
 
         return (
             <Aux>
@@ -149,29 +228,13 @@ class BurgerBuilder extends Component {
                 {/* when we update some components(buildControls for instance as it changes some state)  state manager component will re renders so its children component will get re rendered, so that`s mean that if we update other components, Modal component and order Summary component (bec it is its child) will get re rendered, so we can use shouldComponentUpdate LifeCycle hook for updating them only when they really update*/}
 
                 <Modal showModal = {this.state.showModal} closeModal = {this.closeModalHandler}>
-                    <OrderSummary
-                    totalPrice = {this.state.totalPrice} 
-                    ingredients = {this.state.ingredients}
-                    closeModal = {this.closeModalHandler}
-                    continuePurchasing = {this.continuePurchasing}
-                    />
+                    {orderSummary}
                 </Modal>
-                
-                <Burger ingredients = {this.state.ingredients}/>
-                
 
-                <BuildControls
-                totalPrice = {this.state.totalPrice}
-                purchasable = {this.state.purchasable} 
-                addIngredientFunc = {this.AddIngredientHandler}
-                RemoveIngredientHandler = {this.RemoveIngredientHandler}
-                disabledInfo = {disabledInfo}
-                showModal = {this.showModalHandler}
-                />
+                {burger}
             </Aux>
         )
     }
-
 }
 
 export default BurgerBuilder
