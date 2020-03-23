@@ -136,7 +136,7 @@ class ContactData extends Component {
 
         // when i validate, every time i want to check if is valid was true so i check if the previous rules also was true, and this will prevent any bugs and missconceptions so the base idea here is that the next rule to be true, the previous rule need first to be true then we start checking if its own rule is true or nor. super important.
         return isValid;
-
+        
     }
 
 
