@@ -14,7 +14,7 @@ class App extends Component {
         <Switch>
             <Route path ='/' exact component ={BurgerBuilder}/>
             <Route path ='/checkout'  component ={CheckOut} />
-            <Route path = '/orders' component ={Orders} />
+            <Route path = '/orders' exact component ={Orders} />
             <Route render ={() => <h1 style={{color: 'red', textAlign: 'center'}}>Page Not Found</h1>} />
         </Switch>
         </Layout>

@@ -6,7 +6,7 @@ const Input = (props) => {
 
 
 
-    // i expect to get the invalid prop to check if it is true then make the inp color red and aslo get the should validate prop so to check if the current element has a validation object or not because the select box validation isn`t required and i don`t want to make its color red and also pass a touched prop so we can check if the user touched the input or not 
+    // i expect to get the invalid prop to check if it is true then make the inp color red and aslo get the should validate prop so to check if the current element has a validation object or not because the select box validation isn`t required and i don`t want to make its color red and also pass a touched prop so we can check if the user touched the input or not to only show red alerts when he start typing invalid things not when he immediatlly (sorry for speeling :) visit the form 
     let inpClasses = [classes.InputElement];
     let errorMessage;
 

@@ -4,6 +4,7 @@ import classes from './ContactData.module.css'
 import axios from 'axios';
 import Loader from '../../../Components/Layout/UI/Loader/Loader';
 import Input from '../../../Components/Layout/UI/Input/Input';
+import { connect } from 'react-redux';
 class ContactData extends Component {
 
     state ={
@@ -105,9 +106,6 @@ class ContactData extends Component {
     }
 
 
-
-
-
     checkValidity = (value, rules) => {
         // in this method here, i will excute this function for every time the user writes and i expect to get the e.target.value the user writes as the first parameter, and the rules which i sat to each element in the state as an object.. and based on these two paramaters i will update the valid proprty that each input also has in the form object state. and if the valid prop is true i will make the user pass, else i will make sum hints to the user 
 
@@ -153,7 +151,10 @@ class ContactData extends Component {
 
         // set the copied inp object value to the written value
         updatedElement.value = e.target.value;
+
+        // update the validation-related state
         updatedElement.valid = this.checkValidity(e.target.value, updatedElement.validation)
+        // when user type, set the touched prop for this inp to true
         updatedElement.touched = true
         console.log(updatedElement);
         
@@ -200,7 +201,7 @@ class ContactData extends Component {
             ingredients: this.props.ingredients,
             orderData: orderData
         }
-        axios.post('https://burger-builder-39626.firebaseio.com/orders.json', order).then(response => {
+        axios.post('https://burger-builder-39626.firebaseio.com/orders.json', order).then( () => {
             // when the request is done, hide the loading spinner, and for more robust validation set the error state to false
             this.setState({loading: false, error: false})
 
@@ -260,4 +261,12 @@ class ContactData extends Component {
 
 }
 
-export default ContactData;
+
+const mapStateToProps = state => {
+    return {
+        ingredients: state.ingredients,
+        totalPrice: state.totalPrice
+    }
+}
+
+export default connect(mapStateToProps)(ContactData);
