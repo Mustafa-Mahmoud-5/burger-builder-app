@@ -6,9 +6,6 @@ import { connect } from 'react-redux'
 // this will be the check out component where we display the burger user ordered when he click on continue button (i will show the burger itself not the summary)
 class CheckOut extends Component {
 
-    componentDidMount(){
-        // parse the sent search query url and convert to it an object
-    }
 
     purchaseCancel = () => {
         this.props.history.push({pathname: '/'})

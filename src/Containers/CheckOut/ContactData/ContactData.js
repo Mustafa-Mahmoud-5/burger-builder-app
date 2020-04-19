@@ -128,7 +128,7 @@ class ContactData extends Component {
         }
 
         if(rules.at) {
-            isValid = value.includes('@') && value.includes('.com')
+            isValid = value.includes('@') && value.includes('.com') && isValid
         }
 
 

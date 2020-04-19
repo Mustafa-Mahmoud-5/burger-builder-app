@@ -4,7 +4,6 @@ import Burger from '../../Components/Layout/Burger/Burger';
 import BuildControls from '../../Components/Layout/Burger/BuildControls/BuildControls';
 import Modal from '../../Components/Layout/UI/Modal/Modal';
 import OrderSummary from '../../Components/Layout/Burger/OrderSummary/OrderSummary';
-import axios from 'axios';
 import Loader from '../../Components/Layout/UI/Loader/Loader';
 import * as Actions from '../../Store/Actions/Actions';
 import { connect } from 'react-redux'
@@ -19,15 +18,6 @@ class BurgerBuilder extends Component {
         getErrorMessage: null
     }
 
-    // get the ingredients data from firebase 
-    componentDidMount() {
-
-    //     axios.get('https://burger-builder-39626.firebaseio.com/ingredients.json').then(response => {
-    //         this.setState({ingredients: response.data})
-    //     }).catch(error => {
-    //         this.setState({getError:true, getErrorMessage: error.message})
-    //     })
-    }
 
     purchase = (UpdatedIngredients) => {
 
@@ -85,7 +75,6 @@ class BurgerBuilder extends Component {
 
         let burger = <Loader/>;
 
-        // when i make a request it takes time, and i use the ingredients object in the ui with many different components so i will get error cuz it is set to null initially, theni will just start doing things when it is not null
         if(this.props.ingredients) {
 
             

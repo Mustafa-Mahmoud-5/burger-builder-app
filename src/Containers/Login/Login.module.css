@@ -1,0 +1,8 @@
+.cont{
+    width: 60%;
+    margin: auto;
+    text-align: center;
+    box-shadow: 0px 2px 3px grey;
+    border: 1px solid #eee;
+    border-radius: 5px;
+}

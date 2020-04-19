@@ -4,6 +4,8 @@ import BurgerBuilder from './Containers/BurgerBuilder/BurgerBuilder';
 import CheckOut from './Containers/CheckOut/CheckOut';
 import Orders from './Containers/Orders/Orders';
 import {Route, Switch} from 'react-router-dom';
+import Login from './Containers/Login/Login';
+
 class App extends Component {
 
   render(){
@@ -15,6 +17,7 @@ class App extends Component {
             <Route path ='/' exact component ={BurgerBuilder}/>
             <Route path ='/checkout'  component ={CheckOut} />
             <Route path = '/orders' exact component ={Orders} />
+            <Route path = '/Login' exact component ={Login} />
             <Route render ={() => <h1 style={{color: 'red', textAlign: 'center'}}>Page Not Found</h1>} />
         </Switch>
         </Layout>
